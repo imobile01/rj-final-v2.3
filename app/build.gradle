@@ -1,0 +1,57 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Paul's permanent signing key (rj-scheduler.jks + signing.properties in this folder)
+def signProps = new Properties()
+def signFile = file('signing.properties')
+if (signFile.exists()) {
+    signFile.withInputStream { signProps.load(it) }
+}
+
+android {
+    namespace 'com.rj.scheduler'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.rj.scheduler"
+        minSdk 24
+        targetSdk 35
+        versionCode 63
+        versionName "8.4"
+    }
+
+    signingConfigs {
+        rj {
+            storeFile file(signProps.getProperty('storeFile', 'rj-scheduler.jks'))
+            storePassword signProps.getProperty('storePassword', '')
+            keyAlias signProps.getProperty('keyAlias', 'rjscheduler')
+            keyPassword signProps.getProperty('keyPassword', '')
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.rj
+        }
+        debug {
+            signingConfig signingConfigs.rj
+        }
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.webkit:webkit:1.12.1'
+    implementation 'androidx.core:core:1.13.1'
+}

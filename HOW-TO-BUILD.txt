@@ -1,0 +1,24 @@
+RJ-Scheduler for Android - version 2.1 (versionCode 3)
+=====================================================
+
+What's included
+- SendReceiver: wakes up at 11:59 PM on the 15th and last day of the month.
+- SendJob (new): does the actual emailing in the background. Android starts it as soon as
+  the phone has internet and retries every 15 minutes (up to about 12 hours) if needed.
+- BootReceiver: puts the 11:59 PM alarm back after a phone restart or an app update.
+- Notifications: "Records emailed", "Pay period closed", "Couldn't email records".
+  Tapping a notification opens the app.
+
+Build (GitHub, the way you did before)
+- Upload the files into your repository's RJ-Scheduler folder (see UPDATE steps).
+- Actions tab -> the build runs -> download the APK from Artifacts.
+
+IMPORTANT: keep your signing setup
+- Do NOT replace your existing build.yml or app/build.gradle if they contain your signing
+  key settings. Only update versionCode by hand (see below).
+
+Before giving it to staff, test:
+1. Install over the old app (records must still be there).
+2. Submit -> Automatic -> "Send test email".
+3. Tap "Allow sending while app is closed" -> Allow.
+4. Restart the phone, leave the app closed, and confirm the 11:59 PM email arrives.
